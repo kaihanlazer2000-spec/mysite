@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://127.0.0.1:5500/index.html -->
+<html lang="fa" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مدیریت کارخانه شریف احمدی</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+:root { --bg: #0a0e1a; --bg2: #111827; --card: #1a2235; --border: #2a3548; --text: #e5e9f0; --muted: #8899aa; --primary: #00d4ff; --green: #00e676; --orange: #ff9100; --purple: #b388ff; --red: #ff4757; }
+body { background: var(--bg); color: var(--text); display: flex; min-height: 100vh; background-image: radial-gradient(circle at 20% 10%, rgba(0,212,255,0.08), transparent 40%); }
+
+/* سایدبار */
+.sidebar { width: 260px; background: linear-gradient(180deg, #0f1626, #0a0e1a); border-left: 1px solid var(--border); padding: 20px 14px; display: flex; flex-direction: column; position: fixed; height: 100vh; right: 0; top: 0; z-index: 100; }
+.logo { display: flex; align-items: center; gap: 12px; padding: 0 8px 20px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.profile-pic-container { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; cursor: pointer; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 0 15px rgba(0,212,255,0.3);}
+.profile-pic-container img { width: 100%; height: 100%; object-fit: cover; }
+.logo h1 { font-size: 14px; line-height:1.4; } .logo span { font-size: 11px; color: var(--muted); }
+.sidebar nav { flex: 1; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+.sidebar nav a { display: flex; align-items: center; gap: 10px; padding: 11px 14px; color: var(--muted); text-decoration: none; border-radius: 10px; transition: all .2s; font-size: 13px; cursor: pointer; font-weight: bold;}
+.sidebar nav a:hover { background: rgba(0,212,255,0.08); color: var(--text); }
+.sidebar nav a.active { background: linear-gradient(90deg, rgba(0,212,255,0.15), transparent); color: var(--primary); border-right: 3px solid var(--primary); }
+.sidebar-footer { padding: 10px 8px 0; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); text-align:center;}
+
+/* محتوای اصلی */
+.main { flex: 1; margin-right: 260px; padding: 20px; max-width: calc(100% - 260px); }
+.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.topbar h2 { font-size: 20px; color: var(--primary); }
+.account-select { background: var(--bg2); color: var(--primary); border: 1px solid var(--primary); padding: 8px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; outline: none; }
+
+/* کارت‌ها و فرم‌ها */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px;}
+.card h3 { margin-bottom: 15px; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 10px; display:flex; justify-content:space-between; align-items:center;}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+@media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+.form-group { margin-bottom: 10px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 12px; color: var(--muted); }
+.form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: var(--text); font-size: 13px; outline: none; }
+.form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+.btn { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold; font-family: inherit; transition: all .2s; display:inline-block; text-align:center;}
+.btn.primary { background: linear-gradient(135deg, var(--primary), #0091ff); color: #001018; border: none; }
+.btn.danger { background: rgba(255,71,87,0.15); color: var(--red); border-color: var(--red); }
+.btn.success { background: rgba(0,230,118,0.15); color: var(--green); border-color: var(--green); }
+.btn.warning { background: rgba(255,145,0,0.15); color: var(--orange); border-color: var(--orange); }
+.btn:hover { opacity: 0.8; }
+
+/* جداول و لیست‌ها */
+.table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table th { text-align: right; padding: 12px; color: var(--muted); border-bottom: 1px solid var(--border); font-size: 12px; }
+.table td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
+.list-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid var(--border); align-items:center; cursor:pointer; transition: all 0.2s; background:rgba(255,255,255,0.01); border-radius:8px; margin-bottom:5px;}
+.list-item:hover { background: rgba(255,255,255,0.05); }
+
+/* آمار */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-align: center; position:relative; overflow:hidden;}
+.stat-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; }
+.stat-card.green::before { background: var(--green); }
+.stat-card.red::before { background: var(--red); }
+.stat-card.blue::before { background: var(--primary); }
+.stat-card.orange::before { background: var(--orange); }
+.stat-card h3 { font-size: 22px; margin-bottom: 5px; }
+.stat-card p { color: var(--muted); font-size: 12px; }
+
+/* مودال‌ها */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1500; align-items: center; justify-content: center; padding: 20px; }
+.modal.active { display: flex; }
+.modal-content { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;}
+.photo-row { display:flex; gap:15px; justify-content:center; margin-bottom:15px;}
+.photo-box { text-align:center;}
+.photo-box label { font-size:11px; color:var(--muted); display:block; margin-bottom:5px;}
+.img-preview { width: 90px; height: 90px; border-radius: 10px; border: 2px dashed var(--border); background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; overflow: hidden; transition:0.2s;}
+.img-preview:hover { border-color:var(--primary); }
+.img-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+/* سایر */
+.page { display: none; }
+.page.active { display: block; animation: fade .3s; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px); } }
+.toast { position: fixed; bottom: 20px; left: 20px; background: var(--card); border: 1px solid var(--primary); color: var(--text); padding: 12px 20px; border-radius: 10px; transform: translateY(150%); transition: transform .3s; z-index: 2000; box-shadow: 0 5px 20px rgba(0,212,255,0.3);}
+.toast.show { transform: translateY(0); }
+.customers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+.person-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 15px; text-align: center; cursor: pointer; transition:0.2s; position:relative;}
+.person-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow:0 5px 15px rgba(0,212,255,0.1);}
+.person-card img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid var(--primary); }
+.edit-btn { position:absolute; top:10px; left:10px; background:rgba(255,145,0,0.2); color:var(--orange); border:none; padding:5px; border-radius:50%; cursor:pointer; font-size:14px;}
+.edit-btn:hover { background:var(--orange); color:#fff;}
+.empty-state { text-align:center; color:var(--muted); padding:30px; font-size:14px;}
+
+/* منوی کشویی موبایل: منو تا زمان زدن سه‌نقطه پنهان است */
+.mobile-menu-btn{display:none;background:var(--bg2);color:var(--primary);border:1px solid var(--border);border-radius:10px;width:42px;height:42px;font-size:27px;line-height:1;cursor:pointer;flex-shrink:0}
+.sidebar-backdrop{display:none}
+@media(max-width:850px){
+  body{display:block;min-width:0}
+  .mobile-menu-btn{display:inline-flex;align-items:center;justify-content:center}
+  .topbar{position:sticky;top:0;z-index:120;gap:10px;padding:10px 12px;background:rgba(10,14,26,.97)}
+  .topbar h2{font-size:16px;flex:1;min-width:0}
+  .topbar>div{display:flex;align-items:center;gap:5px}
+  .account-select{max-width:135px;padding:8px 6px;font-size:12px}
+  .main{margin:0!important;padding:12px!important;width:100%;max-width:100%!important}
+  .sidebar{width:min(300px,86vw);right:0;left:auto;transform:translateX(110%);transition:transform .25s ease;z-index:140;box-shadow:-12px 0 35px rgba(0,0,0,.45)}
+  .sidebar.mobile-open{transform:translateX(0)}
+  .sidebar-backdrop.show{display:block;position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:130}
+  .form-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(min-width:851px){.sidebar{transform:none!important}.sidebar-backdrop{display:none!important}}
+
+</style>
+
+<meta name="theme-color" content="#0a0e1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/sharif-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/sharif-192.png">
+
+</head>
+<body>
+
+<!-- هشدار پشتیبان‌گیری -->
+<div id="backupWarning" style="display:none; background:var(--red); color:#fff; text-align:center; padding:10px; font-weight:bold; cursor:pointer; position:sticky; top:0; z-index:200;" onclick="sendBackupToOwner()">
+  ⚠️ توجه: بیش از ۳ روز است پشتیبان نگرفته‌اید! برای جلوگیری از پاک شدن اطلاعات، اینجا کلیک کنید.
+</div>
+
+<!-- منوی موبایل -->
+<div id="sidebarBackdrop" class="sidebar-backdrop" onclick="toggleMobileMenu(false)"></div>
+
+<!-- منوی سایدبار -->
+<aside class="sidebar" id="mainSidebar">
+  <div class="logo">
+    <div class="profile-pic-container" onclick="document.getElementById('sharifPic').click()" title="تغییر عکس پروفایل شریف">
+      <img id="sharifPicPreview" src="icons/sharif-photo.jpg" style="display:block" alt="عکس شریف">
+      <span id="sharifPicPlaceholder" style="display:none;">👤</span>
+    </div>
+    <input type="file" id="sharifPic" accept="image/*" hidden="" onchange="handleSharifPic(event)">
+    <div>
+      <h1>کارخانه شریف احمدی</h1>
+      <span>سیستم مدیریت</span>
+    </div>
+  </div>
+  <nav>
+    <a onclick="showPage('dashboard')" id="nav-dashboard" class="">📊 داشبورد</a>
+    <a onclick="showPage('persons')" id="nav-persons" class="">👥 دفتر اشخاص</a>
+    <a onclick="showPage('orders')" id="nav-orders" class="">📋 ثبت سفارشات</a>
+    <a onclick="showPage('tracking')" id="nav-tracking" style="color:var(--primary)">🔍 رهگیری سفارش (گردش کار)</a>
+    <a onclick="showPage('expenses')" id="nav-expenses" class="">💸 هزینه‌های کارخانه</a>
+    <a onclick="showPage('fabric')" id="nav-fabric" class="">🧵 خرید و مصرف تکه</a>
+    <a onclick="showPage('balance')" id="nav-balance">⚖️ ترازنامه</a>
+    <a onclick="showPage('summary')" id="nav-summary">📊 گزارش کل سیستم</a>
+    <a onclick="openModal('helpModal')" style="color:var(--orange); margin-top:20px;">❓ راهنما و پشتیبانی</a>
+    <a onclick="showPage('settings')" id="nav-settings" style="color:var(--red)">🚨 پشتیبان‌گیری</a>
+  </nav>
+  <div class="sidebar-footer">
+    <p>سازنده: سید رضا علوی</p>
+    <p style="direction:ltr; margin-top:5px; color:var(--green)">📞 0764942879</p>
+  </div>
+</aside>
+
+<!-- محتوای اصلی -->
+<main class="main">
+  <header class="topbar">
+    <button class="mobile-menu-btn" type="button" aria-label="باز کردن منو" onclick="toggleMobileMenu()">⋮</button>
+    <h2 id="pageTitle">ترازنامه</h2>
+    <div>
+      <label style="color:var(--muted); font-size:12px;">حساب فعال:</label>
+      <select id="activeAccount" class="account-select" onchange="changeAccount()">
+        <option value="laser">🔴 حساب لیزر</option>
+        <option value="khiyat">🟢 حساب خیاط</option>
+        <option value="mora">🟡 حساب مهره‌دوز</option>
+        <option value="negin">💎 حساب نگین‌کار</option>
+        <option value="dokandar">🏪 حساب با دکاندار</option>
+        <option value="sales">🛍️ حساب فروش</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- 1. داشبورد -->
+  <section id="page-dashboard" class="page">
+    <div class="stats-grid">
+      <div class="stat-card green"><h3 id="statTotalReceivable" style="color:var(--green)">۰ افغانی</h3><p>کل طلب ما</p></div>
+      <div class="stat-card red"><h3 id="statTotalPayable" style="color:var(--red)">۰ افغانی</h3><p>کل بدهی ما</p></div>
+    </div>
+    <div class="card">
+      <h3>خلاصه وضعیت حساب <span id="dashAccountName">حساب خیاط</span></h3>
+      <p style="font-size:13px; color:var(--muted); line-height:1.8">این آمار فقط برای حساب انتخاب شده در بالای صفحه است. برای مشاهده آمار سایر کارگاه‌ها، حساب خود را تغییر دهید.</p>
+    </div>
+  </section>
+
+  <!-- 2. دفتر اشخاص -->
+  <section id="page-persons" class="page">
+    <div class="card">
+      <h3 style="display:flex; justify-content:space-between">
+        <span>👥 لیست اشخاص (حساب <span id="personsAccountName">حساب خیاط</span>)</span>
+        <button class="btn primary" onclick="openPersonModal()">➕ ثبت شخص جدید</button>
+      </h3>
+      <div id="personsGrid" class="customers-grid"><div class="empty-state">هیچ شخصی در این حساب ثبت نشده است.</div></div>
+    </div>
+  </section>
+
+  <!-- 3. سفارشات -->
+  <section id="page-orders" class="page">
+    <div class="card">
+      <h3 style="display:flex; justify-content:space-between">
+        <span>📋 تراکنش‌های (حساب <span id="ordersAccountName">حساب خیاط</span>)</span>
+        <button class="btn primary" onclick="openOrderModal()">➕ ثبت سفارش / تراکنش</button>
+      </h3>
+      <div style="overflow-x:auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>شماره سفارش</th><th>تاریخ</th><th>طرف حساب</th><th>نوع</th><th>مبلغ</th><th>مرحله/تحویل</th><th>عملیات</th>
+            </tr>
+          </thead>
+          <tbody id="txTable"><tr><td colspan="7" class="empty-state">تراکنشی ثبت نشده.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. رهگیری سفارش -->
+  <section id="page-tracking" class="page">
+    <div class="card">
+      <h3>🔍 رهگیری گردش کار سفارش</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>شماره سفارش (کد رهگیری) را وارد کنید:</label>
+          <input type="text" id="trackingCode" placeholder="مثلاً: 1001">
+        </div>
+        <div class="form-group" style="display:flex; align-items:flex-end;">
+          <button class="btn primary" onclick="trackOrder()" style="width:100%">جستجو</button>
+        </div>
+      </div>
+      <div id="trackingResult" style="margin-top:20px;"></div>
+    </div>
+  </section>
+
+  <!-- 5. هزینه‌ها -->
+  <section id="page-expenses" class="page">
+    <div class="card">
+      <h3 style="display:flex; justify-content:space-between">
+        <span>💸 هزینه‌های (حساب <span id="expensesAccountName">حساب خیاط</span>)</span>
+        <button class="btn primary" onclick="openExpenseModal()">➕ ثبت هزینه جدید</button>
+      </h3>
+      <div style="overflow-x:auto">
+        <table class="table">
+          <thead>
+            <tr><th>تاریخ</th><th>نوع هزینه</th><th>عنوان</th><th>مبلغ</th><th>حذف</th></tr>
+          </thead>
+          <tbody id="expensesTable"><tr><td colspan="5" class="empty-state">هزینه‌ای ثبت نشده.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- خرید و مصرف تکه -->
+  <section id="page-fabric" class="page">
+    <div class="card">
+      <h3>🧵 ثبت خرید تکه</h3>
+      <div class="form-row">
+        <div class="form-group"><label>واحد خرید</label><select id="fabricBuyUnit"><option value="وار">وار</option><option value="توپ">توپ</option><option value="متر">متر</option></select></div>
+        <div class="form-group"><label>مقدار</label><input id="fabricBuyQty" type="number" min="0.01" step="any" placeholder="مثلاً 2"></div>
+        <div class="form-group"><label>قیمت هر واحد (افغانی)</label><input id="fabricBuyPrice" type="number" min="0" step="any" placeholder="مثلاً 1500"></div>
+        <div class="form-group"><label>مبلغ پرداخت‌شده (افغانی، اگر نسیه است صفر)</label><input id="fabricBuyPaid" type="number" min="0" step="any" placeholder="اختیاری"></div>
+      </div>
+      <div class="form-row"><div class="form-group"><label>فروشنده (اختیاری)</label><input id="fabricBuySeller" placeholder="نام فروشنده"></div><div class="form-group"><label>توضیحات (اختیاری)</label><input id="fabricBuyNote" placeholder="توضیحات خرید"></div></div>
+      <p style="margin:8px 0 14px;color:var(--green);font-weight:bold">جمع کل خرید: <span id="fabricBuyTotalPreview">۰ افغانی</span></p>
+      <button class="btn primary" onclick="addFabricPurchase()">ثبت خرید تکه</button>
+    </div>
+    <div class="card">
+      <h3>✂️ ثبت مصرف تکه</h3>
+      <div class="form-row">
+        <div class="form-group"><label>واحد مصرف</label><select id="fabricUseUnit"><option value="وار">وار</option><option value="توپ">توپ</option><option value="متر">متر</option></select></div>
+        <div class="form-group"><label>مقدار مصرف</label><input id="fabricUseQty" type="number" min="0.01" step="any" placeholder="مثلاً 3.5"></div>
+        <div class="form-group"><label>شماره سفارش (اختیاری)</label><input id="fabricUseOrder" placeholder="شماره سفارش"></div>
+      </div>
+      <div class="form-group"><label>توضیحات (اختیاری)</label><input id="fabricUseNote" placeholder="برای کدام لباس یا سفارش مصرف شد؟"></div>
+      <button class="btn primary" onclick="addFabricUsage()">ثبت مصرف تکه</button>
+    </div>
+    <div class="card">
+      <h3>📊 خلاصه خرید و مصرف تکه</h3>
+      <div id="fabricSummary" class="stats-grid"></div>
+    </div>
+    <div class="card"><h3>📥 سوابق خرید تکه</h3><div style="overflow-x:auto"><table class="table"><thead><tr><th>تاریخ</th><th>واحد</th><th>مقدار</th><th>قیمت واحد</th><th>جمع کل</th><th>پرداخت‌شده</th><th>باقی بدهی</th><th>فروشنده/توضیح</th><th>حذف</th></tr></thead><tbody id="fabricPurchasesTable"></tbody></table></div></div>
+    <div class="card"><h3>📤 سوابق مصرف تکه</h3><div style="overflow-x:auto"><table class="table"><thead><tr><th>تاریخ</th><th>واحد</th><th>مقدار مصرف</th><th>شماره سفارش</th><th>توضیح</th><th>حذف</th></tr></thead><tbody id="fabricUsageTable"></tbody></table></div></div>
+  </section>
+
+  <!-- گزارش جامع همه حساب‌ها -->
+  <section id="page-summary" class="page">
+    <div class="card"><h3>📊 گزارش جامع تمام حساب‌ها</h3>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:14px">این صفحه تمام حساب‌ها، طلب‌ها، بدهی‌ها، هزینه‌های کارخانه و خرید و مصرف تکه را یک‌جا نشان می‌دهد.</p>
+      <div id="allAccountsSummary"></div>
+    </div>
+  </section>
+
+  <!-- 6. ترازنامه -->
+  <section id="page-balance" class="page active">
+    <div class="card">
+      <h3>⚖️ ترازنامه (حساب <span id="balanceAccountName">حساب خیاط</span>)</h3>
+      <div id="balanceList" style="max-height:500px; overflow-y:auto"><div class="empty-state">حساب همه افراد تسویه است.</div></div>
+    </div>
+  </section>
+
+  <!-- 7. پشتیبان‌گیری -->
+  <section id="page-settings" class="page">
+    <div class="card" style="border: 1px solid var(--red)">
+      <h3>🚨 پشتیبان‌گیری (بسیار مهم)</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:15px">هر ۳ روز یک‌بار روی دکمه زیر بزنید تا فایل پشتیبان دانلود شود و بتوانید آن را نگهداری یا به واتساپ ارسال کنید.</p>
+      <button class="btn danger" onclick="sendBackupToOwner()" style="width:100%; font-size:16px; padding:15px;">دانلود و ارسال فایل پشتیبان به واتساپ</button>
+    </div>
+    <div class="card" style="border:1px solid var(--green)">
+      <h3>📥 بازیابی پشتیبان</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">فایل پشتیبان JSON که قبلاً از همین سیستم گرفته‌اید انتخاب کنید. پیش از بازیابی، از اطلاعات فعلی یک نسخه اضطراری دانلود می‌شود.</p>
+      <input type="file" id="restoreBackupFile" accept=".json,application/json" style="width:100%;margin:8px 0 14px">
+      <button class="btn primary" onclick="restoreBackupFromFile()" style="width:100%;font-size:16px;padding:15px">بازیابی اطلاعات از فایل</button>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px">هشدار: بازیابی، اطلاعات فعلی را با اطلاعات داخل فایل جایگزین می‌کند. ابتدا فایل پشتیبان فعلی را نگهداری کنید.</p>
+    </div>
+  </section>
+</main>
+
+<!-- Modals -->
+
+<!-- مودال ثبت/ویرایش شخص -->
+<div id="personModal" class="modal">
+  <div class="modal-content">
+    <h3 id="personModalTitle">ثبت شخص جدید در <span id="modalPersonAccount"></span></h3>
+    <input type="hidden" id="editPersonId">
+    <div class="photo-row">
+      <div class="photo-box">
+        <label>عکس پروفایل</label>
+        <div class="img-preview" id="pProfilePreview" onclick="document.getElementById('pProfile').click()">👤</div>
+        <input type="file" id="pProfile" accept="image/*" hidden="" onchange="handlePhoto(event, 'profile')">
+      </div>
+      <div class="photo-box" id="tazkiraBox">
+        <label>عکس تذکره (روی کارت)</label>
+        <div class="img-preview" id="pTazkiraPreview" onclick="document.getElementById('pTazkira').click()">📇</div>
+        <input type="file" id="pTazkira" accept="image/*" hidden onchange="handlePhoto(event, 'tazkira')">
+      </div>
+      <div class="photo-box" id="tazkiraBackBox">
+        <label>عکس پشت تذکره (اختیاری)</label>
+        <div class="img-preview" id="pTazkiraBackPreview" onclick="document.getElementById('pTazkiraBack').click()">📇</div>
+        <input type="file" id="pTazkiraBack" accept="image/*" hidden onchange="handlePhoto(event, 'tazkiraBack')">
+      </div>
+    </div>
+    <div class="form-group"><label>نام کامل *</label><input type="text" id="pName" placeholder="مثلاً: احمد ولد محمد"></div>
+    <div class="form-group"><label>شماره تماس</label><input type="text" id="pPhone" placeholder="07xxxxxxxx" style="direction:ltr; text-align:right;"></div>
+    <div style="display:flex; gap:10px; margin-top:20px">
+      <button class="btn" onclick="closeModal('personModal')" style="flex:1">لغو</button>
+      <button class="btn primary" onclick="savePerson()" style="flex:1">💾 ذخیره</button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال ثبت/ویرایش سفارش -->
+<div id="orderModal" class="modal">
+  <div class="modal-content">
+    <h3 id="orderModalTitle">ثبت سفارش در <span id="modalOrderAccount"></span></h3>
+    <input type="hidden" id="editTxId">
+    
+    <div class="form-group">
+      <label>شماره سفارش (کد رهگیری) *</label>
+      <input type="text" id="txOrderCode" placeholder="مثلاً: 1001" style="border-color:var(--primary); font-weight:bold; font-size:16px;">
+      <small style="color:var(--muted); font-size:11px;">این کد را به خاطر بسپارید تا در مراحل بعدی (نگین، مهره، خیاط) از آن استفاده کنید.</small>
+    </div>
+
+    <div class="form-group">
+      <label>طرف حساب *</label>
+      <select id="txPerson"></select>
+    </div>
+
+    <div class="form-group" id="productSelectGroup">
+      <label>محصول / نوع کار</label>
+      <div style="display:flex; gap:10px">
+        <select id="txProduct" onchange="onProductChange()" style="flex:1"></select>
+        <button class="btn" onclick="openProductModal()" style="padding:10px">➕</button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>جمع کل مبلغ (افغانی) *</label>
+        <input type="number" id="txAmount" placeholder="0">
+      </div>
+      <div class="form-group" id="txQtyGroup">
+        <label>تعداد</label>
+        <input type="number" id="txQty" value="1" min="1" oninput="onQtyChange()">
+      </div>
+    </div>
+
+    <div class="form-row" id="deliveryDateGroup">
+      <div class="form-group">
+        <label>مدت / تاریخ تحویل کار</label>
+        <input type="text" id="txDeadline" placeholder="مثلاً: ۲۵ عقرب">
+      </div>
+      <div class="form-group">
+        <label>توضیحات</label>
+        <input type="text" id="txDesc" placeholder="اختیاری">
+      </div>
+    </div>
+
+    <div id="orderActionButtons" style="margin-top:15px; display:flex; flex-direction:column; gap:10px;"></div>
+    
+    <div style="margin-top:15px; text-align:center">
+      <button class="btn" onclick="closeModal('orderModal')" style="width:100%">بستن</button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال ثبت هزینه -->
+<div id="expenseModal" class="modal">
+  <div class="modal-content">
+    <h3>ثبت هزینه جدید</h3>
+    <div class="form-group"><label>محل ثبت هزینه *</label><select id="expScope" onchange="updateExpenseScopeLabel()"><option value="account">هزینه مربوط به حساب فعال</option><option value="factory">هزینه عمومی کارخانه (مستقل از حساب‌ها)</option></select><small id="expenseScopeHint" style="color:var(--muted)"></small></div>
+    <div class="form-group">
+      <label>نوع هزینه *</label>
+      <select id="expType">
+        <option value="fixed">🏢 هزینه ثابت (اجاره، برق و...)</option>
+        <option value="variable">🔄 هزینه متغیر (خرید مواد و...)</option>
+      </select>
+    </div>
+    <div class="form-group"><label>عنوان / دسته *</label><input type="text" id="expTitle" placeholder="مثلاً: کرایه کارگاه"></div>
+    <div class="form-group"><label>مبلغ (افغانی) *</label><input type="number" id="expAmount" placeholder="0"></div>
+    <div style="display:flex; gap:10px; margin-top:20px">
+      <button class="btn" onclick="closeModal('expenseModal')" style="flex:1">لغو</button>
+      <button class="btn primary" onclick="saveExpense()" style="flex:1">💾 ثبت هزینه</button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال ثبت محصول -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <h3>افزودن محصول جدید</h3>
+    <div class="form-group"><label>نام محصول</label><input type="text" id="prName" placeholder="مثلاً: قالب"></div>
+    <div class="form-group">
+      <label>نوع قیمت</label>
+      <select id="prType">
+        <option value="fixed">قیمت ثابت</option>
+        <option value="variable">قیمت متغیر (دستی)</option>
+      </select>
+    </div>
+    <div class="form-group" id="prPriceGroup"><label>قیمت واحد (افغانی)</label><input type="number" id="prPrice"></div>
+    <div style="display:flex; gap:10px; margin-top:15px">
+      <button class="btn" onclick="closeModal('productModal')" style="flex:1">لغو</button>
+      <button class="btn primary" onclick="saveProduct()" style="flex:1">💾 ذخیره</button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال جزئیات شخص -->
+<div id="personDetailsModal" class="modal">
+  <div class="modal-content">
+    <div id="personDetailsBody"></div>
+    <button class="btn" onclick="closeModal('personDetailsModal')" style="width:100%; margin-top:15px">بستن</button>
+  </div>
+</div>
+
+<!-- مودال راهنما -->
+<div id="helpModal" class="modal">
+  <div class="modal-content">
+    <h3 style="color:var(--primary); text-align:center; margin-bottom:15px">📚 راهنمای استفاده از سیستم</h3>
+    <div style="font-size: 13px; line-height: 1.8; color: var(--text);">
+      <h4 style="color:var(--primary); margin-top:15px;">1. گردش کار (شماره سفارش):</h4>
+      <p>وقتی یک سفارش جدید می‌گیرید، یک شماره (مثلاً 1001) به آن بدهید. در هر مرحله (لیزر، نگین، مهره، خیاط) وقتی تراکنش را ثبت می‌کنید، این شماره را وارد کنید. با ابزار «رهگیری سفارش» می‌توانید ببینید این لباس الان در کدام مرحله است.</p>
+      
+      <h4 style="color:var(--primary); margin-top:15px;">2. دفتر اشخاص:</h4>
+      <p>برای حساب‌های خیاط، مهره‌دوز و نگین‌کار، آپلود عکس تذکره الزامی است. روی هر شخص کلیک کنید تا تاریخچه‌اش را ببینید. با دکمه ✏️ می‌توانید مشخصات یا عکس او را ویرایش کنید.</p>
+
+      <h4 style="color:var(--primary); margin-top:15px;">3. ثبت سفارشات:</h4>
+      <p>ابتدا شماره سفارش، شخص و مبلغ را وارد کنید. با دکمه‌های رنگی (آبی، سبز، قرمز) نوع تراکنش را مشخص کنید. اگر اشتباه ثبت کردید، با دکمه ✏️ در جدول می‌توانید آن را ویرایش کنید.</p>
+    </div>
+    <div style="text-align:center; margin-top:25px; padding-top:15px; border-top:1px solid var(--border)">
+      <p style="font-weight:bold; color:var(--primary)">سازنده سیستم: سید رضا علوی</p>
+      <p style="direction:ltr; font-weight:bold; margin-top:5px; color:var(--green)">📞 0764942879</p>
+    </div>
+    <button class="btn" onclick="closeModal('helpModal')" style="width:100%; margin-top:15px">بستن</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ==================== دیتابیس ====================
+var accountNames = {
+  'laser': 'حساب لیزر', 'khiyat': 'حساب خیاط', 'mora': 'حساب مهره‌دوز',
+  'negin': 'حساب نگین‌کار', 'dokandar': 'حساب با دکاندار', 'sales': 'حساب فروش'
+};
+
+var DB = {
+  persons: [],
+  products: [],
+  transactions: [],
+  expenses: [],
+  fabricPurchases: [],
+  fabricUsage: [],
+  settings: { sharifPic: null, lastBackup: null }
+};
+
+// خواندن امن هر دفتر به‌صورت جداگانه؛ خرابی یک بخش نباید مانع بارگذاری بقیه اطلاعات شود.
+function loadArrayStore(key) {
+  try {
+    var raw = localStorage.getItem(key);
+    if (raw === null) return [];
+    var value = JSON.parse(raw);
+    if (!Array.isArray(value)) throw new Error('ساختار دفتر معتبر نیست');
+    return value;
+  } catch (e) {
+    console.error('خواندن بخش ' + key + ' ناموفق بود:', e);
+    try { document.documentElement.setAttribute('data-storage-warning', 'true'); } catch (_) {}
+    return [];
+  }
+}
+function loadObjectStore(key, fallback) {
+  try {
+    var raw = localStorage.getItem(key);
+    if (raw === null) return fallback;
+    var value = JSON.parse(raw);
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('ساختار تنظیمات معتبر نیست');
+    return value;
+  } catch (e) {
+    console.error('خواندن تنظیمات ناموفق بود:', e);
+    try { document.documentElement.setAttribute('data-storage-warning', 'true'); } catch (_) {}
+    return fallback;
+  }
+}
+DB.persons = loadArrayStore('sharif_persons');
+DB.products = loadArrayStore('sharif_products');
+DB.transactions = loadArrayStore('sharif_tx');
+DB.expenses = loadArrayStore('sharif_expenses');
+DB.fabricPurchases = loadArrayStore('sharif_fabric_purchases');
+DB.fabricUsage = loadArrayStore('sharif_fabric_usage');
+DB.settings = loadObjectStore('sharif_settings', {sharifPic:null,lastBackup:null});
+
+// ذخیره مستقل یک دفتر همراه با بازخوانی و مقایسه دقیق داده ذخیره‌شده.
+function saveStore(key, value, expectedId) {
+  if (!Array.isArray(value)) throw new Error('ساختار اطلاعات برای ذخیره معتبر نیست.');
+  var serialized = JSON.stringify(value);
+  localStorage.setItem(key, serialized);
+  var savedRaw = localStorage.getItem(key);
+  if (savedRaw !== serialized) throw new Error('اطلاعات پس از ذخیره با داده اصلی مطابقت ندارد.');
+  var check = JSON.parse(savedRaw);
+  if (!Array.isArray(check) || check.length !== value.length) throw new Error('تأیید ذخیره اطلاعات انجام نشد.');
+  if (expectedId && !check.some(function(item) { return String(item.id) === String(expectedId); })) {
+    throw new Error('اطلاعات جدید در حافظه تأیید نشد.');
+  }
+  return true;
+}
+
+function save() {
+  var payload = {
+    sharif_persons: DB.persons, sharif_products: DB.products, sharif_tx: DB.transactions,
+    sharif_expenses: DB.expenses, sharif_fabric_purchases: DB.fabricPurchases,
+    sharif_fabric_usage: DB.fabricUsage, sharif_settings: DB.settings
+  };
+  var previous = {};
+  try {
+    Object.keys(payload).forEach(function(k){ previous[k] = localStorage.getItem(k); });
+    Object.keys(payload).forEach(function(k){ localStorage.setItem(k, JSON.stringify(payload[k])); });
+    return true;
+  } catch (e) {
+    // اگر نوشتن یکی از بخش‌ها ناکام شد، کلیدهای قبلی را تا جای ممکن برگردان.
+    Object.keys(previous).forEach(function(k){
+      try { if(previous[k] === null) localStorage.removeItem(k); else localStorage.setItem(k, previous[k]); } catch(ignore) {}
+    });
+    console.error('ذخیره اطلاعات ناموفق بود:', e);
+    var msg = (e && (e.name === 'QuotaExceededError' || e.code === 22))
+      ? 'حافظه ذخیره‌سازی مرورگر پُر شده است. لطفاً اول از بخش پشتیبان‌گیری فایل پشتیبان بگیرید؛ اطلاعات قبلی را پاک نکنید.'
+      : 'مرورگر اجازه ذخیره اطلاعات را نمی‌دهد. سیستم را با همان مرورگر قبلی باز کنید و دسترسی ذخیره‌سازی را مسدود نکنید.';
+    alert(msg);
+    return false;
+  }
+}
+
+function toNumber(value) {
+  var s = String(value == null ? '' : value).replace(/[۰-۹]/g, function(d){return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d));})
+    .replace(/[٠-٩]/g, function(d){return String('٠١٢٣٤٥٦٧٨٩'.indexOf(d));})
+    .replace(/[٬,،\s]/g, '');
+  return Number(s);
+}
+
+var uid = function() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); };
+var fmt = function(n) { return Math.round(n||0).toLocaleString('fa-IR'); };
+var today = function() { return new Date().toLocaleDateString('fa-IR'); };
+
+function toast(msg) { var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2500); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+
+function getActiveAccount() { return document.getElementById('activeAccount').value; }
+
+// ==================== ناوبری ====================
+function showPage(pageId) {
+  toggleMobileMenu(false);
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page-' + pageId).classList.add('active');
+  
+  document.querySelectorAll('.sidebar nav a').forEach(function(a) { a.classList.remove('active'); });
+  var activeNav = document.getElementById('nav-' + pageId);
+  if(activeNav) activeNav.classList.add('active');
+  
+  var titles = { dashboard: 'داشبورد مدیریت', persons: 'دفتر اشخاص', orders: 'ثبت سفارشات', tracking: 'رهگیری سفارش', expenses: 'هزینه‌های کارخانه', fabric: 'خرید و مصرف تکه', balance: 'ترازنامه', summary: 'گزارش کل سیستم', settings: 'پشتیبان‌گیری' };
+  document.getElementById('pageTitle').textContent = titles[pageId];
+  
+  render();
+}
+
+function changeAccount() { render(); }
+
+// ==================== عکس‌ها ====================
+var tempProfile = null, tempTazkira = null, tempTazkiraBack = null;
+
+function processImage(file, callback) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas'); var max = 720; var w = img.width, h = img.height;
+      if(w > max || h > max) { var r = Math.min(max/w, max/h); w = Math.round(w*r); h = Math.round(h*r); }
+      canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      callback(canvas.toDataURL('image/jpeg', 0.48));
+    }; img.onerror = function(){ toast('خواندن عکس ناموفق بود؛ عکس دیگری انتخاب کنید.'); }; img.src = e.target.result;
+  }; reader.onerror = function(){ toast('فایل عکس قابل خواندن نیست.'); }; reader.readAsDataURL(file);
+}
+
+function handlePhoto(event, type) {
+  var file = event.target.files[0]; if(!file) return;
+  processImage(file, function(dataUrl) {
+    if(type === 'profile') { tempProfile = dataUrl; document.getElementById('pProfilePreview').innerHTML = '<img src="' + dataUrl + '">'; }
+    else if(type === 'tazkiraBack') { tempTazkiraBack = dataUrl; document.getElementById('pTazkiraBackPreview').innerHTML = '<img src="' + dataUrl + '">'; }
+    else { tempTazkira = dataUrl; document.getElementById('pTazkiraPreview').innerHTML = '<img src="' + dataUrl + '">'; }
+  });
+}
+
+function handleSharifPic(event) {
+  var file = event.target.files[0]; if(!file) return;
+  processImage(file, function(dataUrl) {
+    DB.settings.sharifPic = dataUrl;
+    save(); renderSharifProfile(); toast('✅ عکس پروفایل ذخیره شد');
+  });
+}
+
+function renderSharifProfile() {
+  if(DB.settings.sharifPic) {
+    document.getElementById('sharifPicPreview').src = DB.settings.sharifPic;
+    document.getElementById('sharifPicPreview').style.display = 'block';
+    document.getElementById('sharifPicPlaceholder').style.display = 'none';
+  } else {
+    document.getElementById('sharifPicPreview').src = 'icons/sharif-photo.jpg';
+    document.getElementById('sharifPicPreview').style.display = 'block';
+    document.getElementById('sharifPicPlaceholder').style.display = 'none';
+  }
+}
+
+// ==================== ثبت/ویرایش شخص ====================
+function openPersonModal(id) {
+  tempProfile = null; tempTazkira = null; tempTazkiraBack = null;
+  document.getElementById('pProfilePreview').innerHTML = '👤';
+  document.getElementById('pTazkiraPreview').innerHTML = '📇';
+  document.getElementById('pTazkiraBackPreview').innerHTML = '📇';
+  
+  var acc = getActiveAccount();
+  document.getElementById('modalPersonAccount').textContent = accountNames[acc];
+  
+  document.getElementById('tazkiraBox').style.display = 'block';
+  document.getElementById('tazkiraBackBox').style.display = 'block';
+
+  if (id) {
+    var p = DB.persons.find(function(x) { return x.id === id; });
+    if(p) {
+      document.getElementById('personModalTitle').textContent = 'ویرایش شخص در ';
+      document.getElementById('editPersonId').value = p.id;
+      document.getElementById('pName').value = p.name;
+      document.getElementById('pPhone').value = p.phone || '';
+      if(p.profile) { tempProfile = p.profile; document.getElementById('pProfilePreview').innerHTML = '<img src="' + p.profile + '">'; }
+      if(p.tazkira) { tempTazkira = p.tazkira; document.getElementById('pTazkiraPreview').innerHTML = '<img src="' + p.tazkira + '">'; }
+      if(p.tazkiraBack) { tempTazkiraBack = p.tazkiraBack; document.getElementById('pTazkiraBackPreview').innerHTML = '<img src="' + p.tazkiraBack + '">'; }
+    }
+  } else {
+    document.getElementById('personModalTitle').textContent = 'ثبت شخص جدید در ';
+    document.getElementById('editPersonId').value = '';
+    document.getElementById('pName').value = '';
+    document.getElementById('pPhone').value = '';
+  }
+  openModal('personModal');
+}
+
+function savePerson() {
+  var oldPersons = JSON.parse(JSON.stringify(DB.persons));
+  var saveButton = document.querySelector('#personModal button[onclick="savePerson()"]');
+  if (saveButton && saveButton.disabled) return;
+  if (saveButton) { saveButton.disabled = true; saveButton.textContent = 'در حال ذخیره...'; }
+  try {
+    var id = document.getElementById('editPersonId').value;
+    var name = String(document.getElementById('pName').value || '').trim();
+    var phone = String(document.getElementById('pPhone').value || '').trim();
+    var acc = getActiveAccount();
+    if (!name) { toast('نام شخص الزامی است'); return; }
+    if (!accountNames[acc]) { alert('حساب فعال معتبر نیست. لطفاً حساب را دوباره انتخاب کنید.'); return; }
+
+    var oldIndex = -1;
+    if (id) {
+      oldIndex = DB.persons.findIndex(function(x) { return String(x.id) === String(id); });
+      if (oldIndex < 0) { alert('شخص برای ویرایش پیدا نشد. صفحه را تازه‌سازی کنید.'); return; }
+      var p = DB.persons[oldIndex];
+      p.name = name; p.phone = phone; p.account = p.account || acc;
+      if (tempProfile) p.profile = tempProfile;
+      if (tempTazkira) p.tazkira = tempTazkira;
+      if (tempTazkiraBack) p.tazkiraBack = tempTazkiraBack;
+    } else {
+      DB.persons.push({
+        id: uid(), account: acc, name: name, phone: phone,
+        profile: tempProfile || null, tazkira: tempTazkira || null,
+        tazkiraBack: tempTazkiraBack || null, createdAt: new Date().toISOString()
+      });
+    }
+
+    // فقط دفتر اشخاص ذخیره و دوباره خوانده می‌شود؛ بخش‌های دیگر مانع ثبت شخص نیستند.
+    var savedPersonId = id || DB.persons[DB.persons.length - 1].id;
+    saveStore('sharif_persons', DB.persons, savedPersonId);
+    tempProfile = null; tempTazkira = null; tempTazkiraBack = null;
+    closeModal('personModal');
+    render();
+    toast(id ? '✅ مشخصات شخص ویرایش شد' : '✅ شخص با موفقیت ثبت شد');
+  } catch (e) {
+    DB.persons = oldPersons;
+    console.error('خطا در ثبت شخص:', e);
+    var message = (e && (e.name === 'QuotaExceededError' || e.code === 22))
+      ? 'حافظه مرورگر پُر شده است. ابتدا از اطلاعات پشتیبان بگیرید؛ چیزی را پاک نکنید.'
+      : 'ثبت شخص انجام نشد: ' + (e.message || 'خطای ذخیره‌سازی');
+    alert(message);
+  } finally {
+    if (saveButton) { saveButton.disabled = false; saveButton.textContent = '💾 ذخیره'; }
+  }
+}
+
+// ==================== ثبت/ویرایش سفارش ====================
+function openOrderModal(id) {
+  var acc = getActiveAccount();
+  document.getElementById('modalOrderAccount').textContent = accountNames[acc];
+  
+  var accPersons = DB.persons.filter(function(p) { return p.account === acc; });
+  var pSel = document.getElementById('txPerson');
+  pSel.innerHTML = '<option value="">-- انتخاب شخص --</option>' + accPersons.map(function(p) {
+    return '<option value="' + p.id + '">' + p.name + '</option>';
+  }).join('');
+  
+  if(accPersons.length === 0) {
+    toast('❌ ابتدا باید در دفتر اشخاص، شخص ثبت کنید');
+    closeModal('orderModal');
+    showPage('persons');
+    return;
+  }
+
+  var prGroup = document.getElementById('productSelectGroup');
+  {
+    prGroup.style.display = 'block';
+    var prSel = document.getElementById('txProduct');
+    var accProds = DB.products.filter(function(p) { return p.account === acc; });
+    prSel.innerHTML = '<option value="">-- انتخاب محصول (اختیاری) --</option>' + accProds.map(function(p) {
+      return '<option value="' + p.id + '">' + p.name + (p.type === 'fixed' ? ' (' + fmt(p.price) + ')' : '') + '</option>';
+    }).join('');
+  }
+
+  var qtyGroup = document.getElementById('txQtyGroup');
+  var deliveryDateGroup = document.getElementById('deliveryDateGroup');
+  var actionDiv = document.getElementById('orderActionButtons');
+
+  qtyGroup.style.display = 'block';
+  if (acc === 'dokandar' || acc === 'sales') {
+    deliveryDateGroup.style.display = 'none';
+    var partyLabel = acc === 'sales' ? 'مشتری فروش' : 'دکاندار';
+    var saleLabel = acc === 'sales' ? 'فروش جنس به مشتری' : 'تحویل جنس به دکاندار';
+    actionDiv.innerHTML = `
+      <button class="btn primary" onclick="addTransaction('deliver_shop')">📦 ${saleLabel}</button>
+      <button class="btn success" onclick="addTransaction('receive_shop')">💵 دریافت پول از ${partyLabel}</button>
+      <button class="btn danger" onclick="addTransaction('pay_shop')">💸 برگشت پول به ${partyLabel}</button>
+    `;
+  } else {
+    deliveryDateGroup.style.display = 'grid';
+    actionDiv.innerHTML = `
+      <button class="btn primary" onclick="addTransaction('work_order')">✂️ ثبت سفارش (ما بدهکار می‌شویم)</button>
+      <button class="btn success" onclick="addTransaction('receive_person')">💵 دریافت پول از این شخص</button>
+      <button class="btn danger" onclick="addTransaction('pay_person')">💸 پرداخت پول به این شخص</button>
+    `;
+  }
+
+  if (id) {
+    var t = DB.transactions.find(function(x) { return x.id === id; });
+    if(t) {
+      document.getElementById('orderModalTitle').textContent = 'ویرایش سفارش در ';
+      document.getElementById('editTxId').value = t.id;
+      document.getElementById('txOrderCode').value = t.orderCode || '';
+      document.getElementById('txPerson').value = t.personId;
+      document.getElementById('txAmount').value = t.amount;
+      document.getElementById('txQty').value = t.qty || 1;
+      document.getElementById('txDesc').value = t.desc || '';
+      document.getElementById('txDeadline').value = t.deadline || '';
+      if(t.productId) document.getElementById('txProduct').value = t.productId;
+    }
+  } else {
+    document.getElementById('orderModalTitle').textContent = 'ثبت سفارش در ';
+    document.getElementById('editTxId').value = '';
+    document.getElementById('txOrderCode').value = '';
+    document.getElementById('txAmount').value = '';
+    document.getElementById('txDesc').value = '';
+    document.getElementById('txDeadline').value = '';
+    document.getElementById('txQty').value = '1';
+    document.getElementById('txAmount').readOnly = false;
+    document.getElementById('txAmount').dataset.unitPrice = '';
+    document.getElementById('txProduct').value = '';
+  }
+  if(document.getElementById('txProduct').value) onProductChange();
+  openModal('orderModal');
+}
+
+function onProductChange() {
+  var pid = document.getElementById('txProduct').value;
+  var prod = DB.products.find(function(p) { return p.id === pid; });
+  var amountEl = document.getElementById('txAmount');
+  if (prod && prod.type === 'fixed') {
+    amountEl.dataset.unitPrice = String(Number(prod.price) || 0);
+    amountEl.readOnly = true;
+    onQtyChange();
+  } else {
+    amountEl.dataset.unitPrice = '';
+    amountEl.readOnly = false;
+    amountEl.value = '';
+  }
+}
+function onQtyChange() {
+  var amountEl = document.getElementById('txAmount');
+  var unitPrice = Number(amountEl.dataset.unitPrice || 0);
+  var qty = Math.max(1, Number(document.getElementById('txQty').value || 1));
+  if (unitPrice > 0) amountEl.value = String(unitPrice * qty);
+}
+
+var transactionSaveInProgress = false;
+function addTransaction(type) {
+  if (transactionSaveInProgress) return;
+  var id = document.getElementById('editTxId').value;
+  var acc = getActiveAccount();
+  var orderCode = document.getElementById('txOrderCode').value.trim();
+  var personId = document.getElementById('txPerson').value;
+  var amount = toNumber(document.getElementById('txAmount').value);
+  var productId = document.getElementById('txProduct').value;
+  var qty = toNumber(document.getElementById('txQty').value) || 1;
+  var desc = document.getElementById('txDesc').value.trim();
+  var deadline = document.getElementById('txDeadline').value.trim();
+
+  if(!orderCode) { orderCode = 'SH-' + new Date().getTime().toString().slice(-8); document.getElementById('txOrderCode').value = orderCode; }
+  if(!personId) return toast('طرف حساب را انتخاب کنید');
+  if(!Number.isFinite(qty) || qty <= 0) return toast('تعداد را درست وارد کنید');
+  if(!Number.isFinite(amount) || amount <= 0) return toast('مبلغ کل را وارد کنید');
+
+  transactionSaveInProgress = true;
+  var oldTxIndex = -1, oldTx = null, newTx = null;
+  if (id) {
+    oldTxIndex = DB.transactions.findIndex(function(x) { return String(x.id) === String(id); });
+    if(oldTxIndex < 0) { transactionSaveInProgress = false; return toast('سفارش برای ویرایش پیدا نشد؛ صفحه را تازه‌سازی کنید.'); }
+    oldTx = Object.assign({}, DB.transactions[oldTxIndex]);
+    var t = DB.transactions[oldTxIndex];
+    t.orderCode = orderCode; t.personId = personId; t.type = type;
+    t.productId = productId; t.qty = qty; t.amount = amount; t.desc = desc; t.deadline = deadline;
+  } else {
+    newTx = { id: uid(), account: acc, orderCode: orderCode, personId: personId, type: type,
+      productId: productId, qty: qty, amount: amount, desc: desc, date: today(), deadline: deadline };
+    DB.transactions.push(newTx);
+  }
+  try {
+    // فقط دفتر سفارش‌ها ذخیره می‌شود؛ عکس‌ها و بخش‌های دیگر مانع ثبت سفارش نیستند.
+    var savedTxId = id || (newTx && newTx.id);
+    saveStore('sharif_tx', DB.transactions, savedTxId);
+    closeModal('orderModal');
+    render();
+    toast(id ? '✅ سفارش با موفقیت ویرایش شد' : '✅ سفارش با موفقیت ثبت و ذخیره شد');
+  } catch (e) {
+    if(id && oldTxIndex >= 0) DB.transactions[oldTxIndex] = oldTx;
+    else if(newTx) DB.transactions = DB.transactions.filter(function(x){return x.id !== newTx.id;});
+    console.error('خطا در ذخیره سفارش:', e);
+    var msg = (e && (e.name === 'QuotaExceededError' || e.code === 22))
+      ? 'حافظه مرورگر پُر است؛ سفارش ذخیره نشد. ابتدا پشتیبان بگیرید و اطلاعات را پاک نکنید.'
+      : 'ذخیره سفارش انجام نشد: ' + (e.message || 'خطای حافظه مرورگر');
+    alert(msg);
+  } finally {
+    transactionSaveInProgress = false;
+  }
+}
+
+// ==================== محصولات ====================
+function openProductModal() { document.getElementById('prName').value=''; document.getElementById('prPrice').value=''; openModal('productModal'); }
+var productSaveInProgress = false;
+function saveProduct() {
+  if (productSaveInProgress) return;
+  var acc = getActiveAccount();
+  var name = String(document.getElementById('prName').value || '').trim();
+  var type = document.getElementById('prType').value;
+  var price = toNumber(document.getElementById('prPrice').value) || 0;
+  if(!name) return toast('نام محصول الزامی است');
+  if(!accountNames[acc]) return toast('لطفاً حساب معتبر انتخاب کنید');
+  if(type === 'fixed' && (!Number.isFinite(price) || price <= 0)) return toast('قیمت واحد ثابت را درست وارد کنید');
+  productSaveInProgress = true;
+  var item = { id: uid(), account: acc, name: name, type: type, price: price };
+  DB.products.push(item);
+  try { saveStore('sharif_products', DB.products, item.id); }
+  catch(e) {
+    DB.products = DB.products.filter(function(x){ return x.id !== item.id; });
+    console.error('خطا در ثبت محصول:', e);
+    alert((e && (e.name === 'QuotaExceededError' || e.code === 22)) ? 'حافظه مرورگر پُر است؛ محصول ذخیره نشد. ابتدا پشتیبان بگیرید.' : 'ثبت محصول انجام نشد: ' + (e.message || 'خطای ذخیره‌سازی'));
+    productSaveInProgress = false;
+    return;
+  }
+  productSaveInProgress = false;
+  closeModal('productModal');
+  var prSel = document.getElementById('txProduct');
+  prSel.innerHTML = '<option value="">-- انتخاب محصول --</option>' + DB.products.filter(function(p){return p.account===acc;}).map(function(p){return '<option value="'+p.id+'">'+p.name+(p.type==='fixed'?' ('+fmt(p.price)+' فی عدد)':'')+'</option>';}).join('');
+  prSel.value = item.id;
+  document.getElementById('txQty').value = '1';
+  onProductChange();
+  toast('محصول ثبت شد و به فهرست سفارش اضافه گردید.');
+}
+
+// ==================== هزینه‌ها ====================
+function updateExpenseScopeLabel() {
+  var scope=document.getElementById('expScope').value;
+  document.getElementById('expenseScopeHint').textContent = scope==='factory' ? 'این هزینه به هیچ شخص یا حساب مشتری وصل نمی‌شود و فقط در گزارش کارخانه می‌آید.' : 'این هزینه فقط در حساب فعال ثبت و گزارش می‌شود.';
+}
+function openExpenseModal() {
+  document.getElementById('expScope').value='account';
+  document.getElementById('expTitle').value='';
+  document.getElementById('expAmount').value='';
+  document.getElementById('expType').value='fixed';
+  updateExpenseScopeLabel();
+  openModal('expenseModal');
+}
+function saveExpense() {
+  var scope=document.getElementById('expScope').value;
+  var acc=scope==='factory' ? 'factory' : getActiveAccount();
+  var title=document.getElementById('expTitle').value.trim();
+  var amount=Number(document.getElementById('expAmount').value);
+  var type=document.getElementById('expType').value;
+  if(!title) return toast('عنوان هزینه الزامی است');
+  if(!Number.isFinite(amount) || amount<=0) return toast('مبلغ هزینه را درست وارد کنید');
+  var record={id:uid(),scope:scope,account:acc,type:type,title:title,amount:amount,date:today()};
+  DB.expenses.push(record);
+  if(!save()){DB.expenses.pop();return;}
+  closeModal('expenseModal'); render();
+  toast(scope==='factory'?'✅ هزینه عمومی کارخانه ثبت شد':'✅ هزینه حساب ثبت شد');
+}
+
+// ==================== رهگیری سفارش ====================
+function trackOrder() {
+  var code = document.getElementById('trackingCode').value.trim();
+  if(!code) return toast('کد سفارش را وارد کنید');
+
+  var txs = DB.transactions.filter(function(t) { return t.orderCode === code; });
+  
+  if (txs.length === 0) {
+    document.getElementById('trackingResult').innerHTML = '<div class="empty-state">هیچ سفارشی با این کد یافت نشد.</div>';
+    return;
+  }
+
+  // مرتب‌سازی بر اساس مرحله (لیزر -> نگین -> مهره -> خیاط -> دکاندار)
+  var orderStages = ['laser', 'negin', 'mora', 'khiyat', 'dokandar', 'sales'];
+  txs.sort(function(a, b) {
+    return orderStages.indexOf(a.account) - orderStages.indexOf(b.account);
+  });
+
+  var html = '<h3 style="color:var(--green); margin-bottom:15px">مسیر طی شده برای سفارش ' + code + ':</h3>';
+  html += '<div style="border-right: 3px solid var(--primary); padding-right: 15px;">';
+  
+  txs.forEach(function(t) {
+    var p = DB.persons.find(function(x){return x.id === t.personId;});
+    var pName = p ? p.name : '?';
+    var accName = accountNames[t.account];
+    
+    html += '<div style="margin-bottom: 20px; position:relative;">';
+    html += '<div style="width:15px; height:15px; background:var(--primary); border-radius:50%; position:absolute; right:-23px; top:5px;"></div>';
+    html += '<h4 style="color:var(--primary)">' + accName + '</h4>';
+    html += '<p style="font-size:13px; margin-top:5px;">👤 مسئول: <b>' + pName + '</b></p>';
+    html += '<p style="font-size:13px;">📅 تاریخ ثبت: ' + t.date + ' | 🚚 تحویل: ' + (t.deadline || '-') + '</p>';
+    html += '<p style="font-size:13px;">💰 مبلغ: ' + fmt(t.amount) + ' افغانی</p>';
+    html += '</div>';
+  });
+  
+  html += '</div>';
+  document.getElementById('trackingResult').innerHTML = html;
+}
+
+// ==================== رندر و محاسبات ====================
+function getPersonBalances(acc) {
+  var txs = DB.transactions.filter(function(t) { return t.account === acc; });
+  var balances = {};
+  
+  DB.persons.filter(function(p) { return p.account === acc; }).forEach(function(p) { 
+    balances[p.id] = { id: p.id, name: p.name, profile: p.profile, tazkira: p.tazkira, balance: 0 }; 
+  });
+  
+  txs.forEach(function(t) {
+    if (!balances[t.personId]) return;
+    if (t.type === 'work_order') balances[t.personId].balance -= t.amount; 
+    if (t.type === 'deliver_shop') balances[t.personId].balance += t.amount; 
+    if (t.type.includes('pay')) balances[t.personId].balance += t.amount; 
+    if (t.type.includes('receive')) balances[t.personId].balance -= t.amount; 
+  });
+  
+  return Object.values(balances);
+}
+
+function renderPersons() {
+  var acc = getActiveAccount();
+  var accPersons = DB.persons.filter(function(p) { return p.account === acc; });
+  document.getElementById('personsAccountName').textContent = accountNames[acc];
+  
+  var el = document.getElementById('personsGrid');
+  if(accPersons.length === 0) {
+    el.innerHTML = '<div class="empty-state">هیچ شخصی در این حساب ثبت نشده است.</div>';
+    return;
+  }
+  
+  el.innerHTML = accPersons.map(function(p) {
+    var img = p.profile ? '<img src="'+p.profile+'">' : '<div style="width:70px;height:70px;border-radius:50%;background:var(--bg2);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:24px;">👤</div>';
+    return '<div class="person-card" onclick="showPersonDetails(\''+p.id+'\')">' + 
+           '<button class="edit-btn" onclick="event.stopPropagation(); openPersonModal(\''+p.id+'\')">✏️</button>' +
+           img + '<h4>'+p.name+'</h4><p style="font-size:11px; color:var(--muted); direction:ltr;">'+(p.phone||'-')+'</p></div>';
+  }).join('');
+}
+
+function showPersonDetails(personId) {
+  var p = DB.persons.find(function(x){return x.id === personId;});
+  if(!p) return;
+  var txs = DB.transactions.filter(function(t){return t.personId === personId;});
+  var html = '<h3 style="color:var(--primary); margin-bottom:15px">👤 ' + p.name + '</h3>';
+  
+  html += '<div class="photo-row">';
+  if(p.profile) html += '<div class="photo-box"><img src="'+p.profile+'" style="width:100px;height:100px;border-radius:10px;object-fit:cover; border:2px solid var(--primary)"></div>';
+  if(p.tazkira) html += '<div class="photo-box"><label>روی تذکره</label><img src="'+p.tazkira+'" style="width:100px;height:100px;border-radius:10px;object-fit:cover; border:2px solid var(--green)"></div>';
+  if(p.tazkiraBack) html += '<div class="photo-box"><label>پشت تذکره</label><img src="'+p.tazkiraBack+'" style="width:100px;height:100px;border-radius:10px;object-fit:cover; border:2px solid var(--green)"></div>'; 
+  html += '</div>';
+  
+  if(p.phone) html += '<p style="margin-bottom:10px; direction:ltr; text-align:right">📱 ' + p.phone + '</p>';
+
+  html += '<h4 style="margin-bottom:10px; font-size:13px; color:var(--muted)">تاریخچه تراکنش‌ها:</h4>';
+  if(txs.length === 0) html += '<p style="color:var(--muted)">تراکنشی ثبت نشده.</p>';
+  else {
+    html += '<div style="max-height:200px; overflow-y:auto; font-size:12px">';
+    txs.forEach(function(t){
+      var typeStr = t.type === 'work_order' ? 'سفارش کار' : t.type === 'deliver_shop' ? (p.account === 'sales' ? 'فروش جنس' : 'تحویل جنس') : t.type.includes('pay') ? 'پرداخت / برگشت پول' : 'دریافت پول';
+      var color = (t.type === 'work_order' || t.type.includes('receive')) ? 'var(--red)' : 'var(--green)';
+      html += '<div class="list-item" style="cursor:default"><span>'+t.date+' - '+typeStr+' (سفارش '+t.orderCode+')</span> <span style="color:'+color+'; font-weight:bold;">'+fmt(t.amount)+'</span></div>';
+    });
+    html += '</div>';
+  }
+  html += '<button class="btn success" style="width:100%;margin-top:12px" onclick="sharePersonAccount(\''+personId+'\')">📤 ارسال تصویر حساب مشتری</button>';
+  document.getElementById('personDetailsBody').innerHTML = html;
+  openModal('personDetailsModal');
+}
+
+function renderAllAccountsSummary(){
+  var html='', grandReceivable=0,grandPayable=0;
+  Object.keys(accountNames).forEach(function(acc){
+    var bs=getPersonBalances(acc), rec=0,pay=0;
+    bs.forEach(function(b){if(b.balance>0)rec+=b.balance;else pay+=Math.abs(b.balance);});
+    grandReceivable+=rec;grandPayable+=pay;
+    html+='<div class="card" style="margin:10px 0;padding:14px"><h3>'+accountNames[acc]+'</h3><div class="form-row"><div><b style="color:var(--green)">'+fmt(rec)+' افغانی</b><p style="color:var(--muted);font-size:11px">طلب ما از این حساب</p></div><div><b style="color:var(--red)">'+fmt(pay)+' افغانی</b><p style="color:var(--muted);font-size:11px">بدهی ما در این حساب</p></div></div><p style="font-size:12px;color:var(--muted)">تعداد اشخاص: '+fmt(DB.persons.filter(function(p){return p.account===acc;}).length)+' | تعداد ثبت‌ها: '+fmt(DB.transactions.filter(function(t){return t.account===acc;}).length)+'</p></div>';
+  });
+  var factoryExp=DB.expenses.filter(function(e){return e.scope==='factory'||e.account==='factory';}).reduce(function(a,e){return a+Number(e.amount||0);},0);
+  var accountExp=DB.expenses.filter(function(e){return e.scope!=='factory'&&e.account!=='factory';}).reduce(function(a,e){return a+Number(e.amount||0);},0);
+  var fabricTotal=DB.fabricPurchases.reduce(function(a,x){return a+Number(x.total||0);},0);
+  var fabricPaid=DB.fabricPurchases.reduce(function(a,x){return a+Number(x.paid||0);},0);
+  var fabricDebt=DB.fabricPurchases.reduce(function(a,x){return a+Number(x.remaining!==undefined?x.remaining:Math.max(0,(x.total||0)-(x.paid||0)));},0);
+  var units=['وار','توپ','متر'];
+  var fabricHtml=units.map(function(u){var b=DB.fabricPurchases.filter(function(x){return x.unit===u;}).reduce(function(a,x){return a+Number(x.qty||0);},0);var c=DB.fabricUsage.filter(function(x){return x.unit===u;}).reduce(function(a,x){return a+Number(x.qty||0);},0);return '<div class="list-item"><span>'+u+'</span><b>خرید: '+fmt(b)+' | مصرف: '+fmt(c)+'</b></div>';}).join('');
+  html='<div class="stats-grid"><div class="stat-card green"><h3>'+fmt(grandReceivable)+'</h3><p>مجموع طلب ما از تمام حساب‌ها</p></div><div class="stat-card red"><h3>'+fmt(grandPayable)+'</h3><p>مجموع بدهی ما به تمام حساب‌ها</p></div><div class="stat-card orange"><h3>'+fmt(factoryExp)+'</h3><p>هزینه عمومی کارخانه</p></div><div class="stat-card blue"><h3>'+fmt(accountExp)+'</h3><p>هزینه‌های ثبت‌شده در حساب‌ها</p></div><div class="stat-card"><h3>'+fmt(fabricTotal)+'</h3><p>جمع کل خرید تکه</p></div><div class="stat-card red"><h3>'+fmt(fabricDebt)+'</h3><p>باقی بدهی خرید تکه</p></div></div>'+html+'<div class="card"><h3>🧵 خلاصه خرید و مصرف تکه</h3>'+fabricHtml+'<p style="margin-top:10px;color:var(--orange);font-weight:bold">مجموع مبلغ خرید تکه: '+fmt(fabricTotal)+' افغانی</p></div><div class="card"><h3>🧮 جمع‌بندی مالی ثبت‌شده</h3><p>طلب ما از اشخاص: <b style="color:var(--green)">'+fmt(grandReceivable)+'</b> افغانی</p><p>بدهی ما به اشخاص: <b style="color:var(--red)">'+fmt(grandPayable)+'</b> افغانی</p><p>هزینه عمومی کارخانه: <b>'+fmt(factoryExp)+'</b> افغانی</p><p>هزینه حساب‌ها: <b>'+fmt(accountExp)+'</b> افغانی</p><p>خرید تکه: <b>'+fmt(fabricTotal)+'</b> افغانی | پرداخت‌شده: <b>'+fmt(fabricPaid)+'</b> | بدهی باقی‌مانده: <b style="color:var(--red)">'+fmt(fabricDebt)+'</b></p><small style="color:var(--muted)">خرید تکه جداگانه گزارش شده تا با بدهی اشخاص دوباره‌شماری نشود. برای نمایش بدهی واقعی فروشنده تکه، پرداخت‌های فروشنده نیز باید به‌عنوان حساب طرف‌حساب ثبت گردد.</small></div>';
+  document.getElementById('allAccountsSummary').innerHTML=html;
+}
+
+function sharePersonAccount(personId){
+  var p=DB.persons.find(function(x){return x.id===personId;}); if(!p)return;
+  var txs=DB.transactions.filter(function(t){return t.personId===personId;});
+  var balance=getPersonBalances(p.account).find(function(x){return x.id===personId;});
+  var canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+  canvas.width=1100; canvas.height=Math.max(650,260+txs.length*58);
+  ctx.fillStyle='#101827';ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#00d4ff';ctx.font='bold 42px Tahoma';ctx.textAlign='right';ctx.direction='rtl';ctx.fillText('صورت حساب مشتری',1040,75);
+  ctx.fillStyle='#ffffff';ctx.font='bold 32px Tahoma';ctx.fillText(p.name,1040,135);
+  ctx.font='24px Tahoma';ctx.fillStyle='#cbd5e1';ctx.fillText('حساب: '+accountNames[p.account],1040,185);
+  ctx.fillText('شماره تماس: '+(p.phone||'---'),1040,225);
+  var bal=balance?balance.balance:0;ctx.fillStyle=bal>0?'#00e676':bal<0?'#ff6677':'#ffffff';ctx.font='bold 28px Tahoma';ctx.fillText((bal>0?'طلب ما: ':bal<0?'بدهی ما: ':'تسویه: ')+fmt(Math.abs(bal))+' افغانی',1040,285);
+  ctx.fillStyle='#00d4ff';ctx.font='bold 22px Tahoma';ctx.fillText('تاریخ | شماره سفارش | نوع | مبلغ (افغانی)',1040,350);
+  txs.forEach(function(t,i){var y=400+i*58;var typ=t.type==='work_order'?'سفارش کار':t.type==='deliver_shop'?(p.account==='sales'?'فروش جنس':'تحویل جنس'):t.type.includes('pay')?'پرداخت / برگشت پول':'دریافت پول';ctx.fillStyle='#e5e9f0';ctx.font='20px Tahoma';ctx.fillText((t.date||'')+' | '+(t.orderCode||'-')+' | '+typ+' | '+fmt(t.amount),1040,y);ctx.strokeStyle='#334155';ctx.beginPath();ctx.moveTo(55,y+18);ctx.lineTo(1045,y+18);ctx.stroke();});
+  ctx.fillStyle='#94a3b8';ctx.font='18px Tahoma';ctx.fillText('گزارش تهیه‌شده از سیستم مدیریت کارخانه شریف احمدی',1040,canvas.height-35);
+  canvas.toBlob(async function(blob){if(!blob){toast('ساخت تصویر ناموفق بود');return;}var file=new File([blob],'hesab-'+p.name+'.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:'صورت حساب '+p.name,text:'تصویر صورت حساب مشتری'});return;}catch(e){if(e.name==='AbortError')return;}}
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='صورت-حساب-'+p.name+'.png';a.click();toast('تصویر حساب دانلود شد؛ آن را در واتساپ ارسال کنید.');
+  },'image/png');
+}
+
+function render() {
+  var acc = getActiveAccount();
+  document.getElementById('dashAccountName').textContent = accountNames[acc];
+  document.getElementById('ordersAccountName').textContent = accountNames[acc];
+  document.getElementById('expensesAccountName').textContent = accountNames[acc];
+  document.getElementById('balanceAccountName').textContent = accountNames[acc];
+
+  var txs = DB.transactions.filter(function(t) { return t.account === acc; });
+  var exps = DB.expenses.filter(function(e) { return e.account === acc || e.scope === 'factory' || e.account === 'factory'; });
+  
+  var balances = getPersonBalances(acc);
+  var totalReceivable = 0, totalPayable = 0;
+  
+  balances.forEach(function(b) {
+    if(b.balance > 0) totalReceivable += b.balance;
+    else totalPayable += Math.abs(b.balance);
+  });
+
+  document.getElementById('statTotalReceivable').textContent = fmt(totalReceivable) + ' افغانی';
+  document.getElementById('statTotalPayable').textContent = fmt(totalPayable) + ' افغانی';
+
+  // ترازنامه
+  var nonZeroBalances = balances.filter(function(b) { return b.balance !== 0; });
+  if(nonZeroBalances.length === 0) {
+    document.getElementById('balanceList').innerHTML = '<div class="empty-state">حساب همه افراد تسویه است.</div>';
+  } else {
+    document.getElementById('balanceList').innerHTML = nonZeroBalances.sort(function(a,b){return b.balance - a.balance;}).map(function(b) {
+      var color = b.balance > 0 ? 'var(--green)' : 'var(--red)';
+      var text = b.balance > 0 ? 'بدهکار (طلب ما)' : 'بستانکار (بدهی ما)';
+      var sign = b.balance > 0 ? '+' : '-';
+      var avatar = b.profile ? '<img src="'+b.profile+'" style="width:35px;height:35px;border-radius:50%;margin-left:10px; object-fit:cover">' : '<span style="margin-left:10px; font-size:20px;">👤</span>';
+      
+      return '<div class="list-item" onclick="showPersonDetails(\''+b.id+'\')">' +
+             '<span style="font-weight:bold; display:flex; align-items:center">' + avatar + b.name + '</span>' +
+             '<span style="color:' + color + '; font-weight:bold">' + sign + fmt(Math.abs(b.balance)) + ' (' + text + ')</span></div>';
+    }).join('');
+  }
+
+  // لیست تراکنش‌ها
+  var reversed = txs.slice().reverse();
+  if(reversed.length === 0) {
+    document.getElementById('txTable').innerHTML = '<tr><td colspan="7" class="empty-state">تراکنشی ثبت نشده.</td></tr>';
+  } else {
+    document.getElementById('txTable').innerHTML = reversed.map(function(t) {
+      var p = DB.persons.find(function(x){return x.id === t.personId;});
+      var pName = p ? p.name : '?';
+      var typeBadge = '', sign = '', color = '';
+      
+      if(t.type === 'work_order') { typeBadge = '<span class="badge" style="background:var(--orange); color:#fff">سفارش کار</span>'; sign='-'; color='var(--red)'; }
+      if(t.type === 'deliver_shop') { typeBadge = '<span class="badge" style="background:var(--primary); color:#fff">'+(acc === 'sales' ? 'فروش جنس' : 'تحویل جنس')+'</span>'; sign='+'; color='var(--green)'; }
+      if(t.type.includes('pay')) { typeBadge = '<span class="badge" style="background:var(--red); color:#fff">پرداخت پول</span>'; sign='+'; color='var(--green)'; }
+      if(t.type.includes('receive')) { typeBadge = '<span class="badge" style="background:var(--green); color:#fff">دریافت پول</span>'; sign='-'; color='var(--red)'; }
+
+      return '<tr>' +
+        '<td style="font-weight:bold; color:var(--primary)">' + (t.orderCode || '-') + '</td>' +
+        '<td style="font-size:11px">' + t.date + '</td>' +
+        '<td style="font-weight:bold">' + pName + '</td>' +
+        '<td>' + typeBadge + '</td>' +
+        '<td style="color:' + color + '; font-weight:bold; direction:ltr; text-align:right">' + sign + fmt(t.amount) + '</td>' +
+        '<td style="font-size:11px; color:var(--orange)">' + (t.deadline || '-') + '</td>' +
+        '<td>' +
+          '<button class="btn warning" style="padding:5px 8px; font-size:12px" onclick="openOrderModal(\'' + t.id + '\')">✏️</button> ' +
+          '<button class="btn danger" style="padding:5px 8px; font-size:12px" onclick="deleteTx(\'' + t.id + '\')">🗑️</button>' +
+        '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  // لیست هزینه‌ها
+  var revExps = exps.slice().reverse();
+  if(revExps.length === 0) {
+    document.getElementById('expensesTable').innerHTML = '<tr><td colspan="5" class="empty-state">هزینه‌ای ثبت نشده.</td></tr>';
+  } else {
+    document.getElementById('expensesTable').innerHTML = revExps.map(function(e) {
+      var tName = e.type === 'fixed' ? 'ثابت' : 'متغیر';
+      var scopeName = (e.scope==='factory'||e.account==='factory') ? 'عمومی کارخانه' : accountNames[e.account];
+      return '<tr>' +
+        '<td style="font-size:11px">' + e.date + '</td>' +
+        '<td><span class="badge" style="background:var(--purple); color:#fff">' + tName + '</span><br><small style="color:var(--muted)">'+(scopeName||'')+'</small></td>' +
+        '<td style="font-weight:bold">' + e.title + '</td>' +
+        '<td style="color:var(--red); font-weight:bold; direction:ltr; text-align:right">-' + fmt(e.amount) + '</td>' +
+        '<td><button class="btn danger" style="padding:5px 10px; font-size:12px" onclick="deleteExpense(\'' + e.id + '\')">🗑️</button></td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  renderPersons();
+  renderFabric();
+  renderAllAccountsSummary();
+}
+
+function deleteTx(id) {
+  if(!confirm('حذف شود؟')) return;
+  DB.transactions = DB.transactions.filter(function(t) { return t.id !== id; });
+  save(); render();
+}
+
+function deleteExpense(id) {
+  if(!confirm('حذف شود؟')) return;
+  DB.expenses = DB.expenses.filter(function(e) { return e.id !== id; });
+  save(); render();
+}
+
+// ==================== خرید و مصرف تکه ====================
+function addFabricPurchase() {
+  var unit = document.getElementById('fabricBuyUnit').value;
+  var qty = Number(document.getElementById('fabricBuyQty').value);
+  var price = Number(document.getElementById('fabricBuyPrice').value);
+  var total=qty*price; var paid=Number(document.getElementById('fabricBuyPaid').value||0);
+  if(!Number.isFinite(qty) || qty <= 0 || !Number.isFinite(price) || price < 0 || !Number.isFinite(paid) || paid<0 || paid>total) { toast('مقدار، قیمت یا مبلغ پرداخت‌شده را درست وارد کنید.'); return; }
+  DB.fabricPurchases.push({id:uid(), date:today(), unit:unit, qty:qty, unitPrice:price, total:total, paid:paid, remaining:total-paid, seller:document.getElementById('fabricBuySeller').value.trim(), note:document.getElementById('fabricBuyNote').value.trim()});
+  if(!save()){DB.fabricPurchases.pop();return;}
+  ['fabricBuyQty','fabricBuyPrice','fabricBuyPaid','fabricBuySeller','fabricBuyNote'].forEach(function(id){document.getElementById(id).value='';});
+  renderFabric(); toast('خرید تکه ثبت شد.');
+}
+function addFabricUsage() {
+  var unit = document.getElementById('fabricUseUnit').value;
+  var qty = Number(document.getElementById('fabricUseQty').value);
+  if(!Number.isFinite(qty) || qty <= 0) { toast('مقدار مصرف را درست وارد کنید.'); return; }
+  DB.fabricUsage.push({id:uid(), date:today(), unit:unit, qty:qty, order:document.getElementById('fabricUseOrder').value.trim(), note:document.getElementById('fabricUseNote').value.trim()});
+  save();
+  ['fabricUseQty','fabricUseOrder','fabricUseNote'].forEach(function(id){document.getElementById(id).value='';});
+  renderFabric(); toast('مصرف تکه ثبت شد.');
+}
+function deleteFabricRecord(kind,id) {
+  if(!confirm('این مورد حذف شود؟')) return;
+  if(kind==='buy') DB.fabricPurchases=DB.fabricPurchases.filter(function(x){return x.id!==id;});
+  else DB.fabricUsage=DB.fabricUsage.filter(function(x){return x.id!==id;});
+  save(); renderFabric();
+}
+function renderFabric() {
+  var units=['وار','توپ','متر'];
+  var summary='';
+  units.forEach(function(u){
+    var bought=DB.fabricPurchases.filter(function(x){return x.unit===u;}).reduce(function(a,x){return a+Number(x.qty||0);},0);
+    var used=DB.fabricUsage.filter(function(x){return x.unit===u;}).reduce(function(a,x){return a+Number(x.qty||0);},0);
+    summary += '<div class="stat-card"><h3>'+fmt(bought)+'</h3><p>مقدار خرید ('+u+')</p><h3 style="color:var(--orange);margin-top:8px">'+fmt(used)+'</h3><p>مقدار مصرف ('+u+')</p></div>';
+  });
+  var totalCost=DB.fabricPurchases.reduce(function(a,x){return a+Number(x.total||0);},0);
+  summary += '<div class="stat-card green"><h3>'+fmt(totalCost)+' افغانی</h3><p>جمع کل هزینه خرید تکه</p></div>';
+  document.getElementById('fabricSummary').innerHTML=summary;
+  var buys=DB.fabricPurchases.slice().reverse();
+  document.getElementById('fabricPurchasesTable').innerHTML=buys.length?buys.map(function(x){return '<tr><td>'+x.date+'</td><td>'+x.unit+'</td><td>'+fmt(x.qty)+'</td><td>'+fmt(x.unitPrice)+'</td><td>'+fmt(x.total)+'</td><td>'+(x.seller||'')+' '+(x.note||'')+'</td><td><button class="btn danger" onclick="deleteFabricRecord(\'buy\',\''+x.id+'\')">حذف</button></td></tr>';}).join(''):'<tr><td colspan="9" class="empty-state">هنوز خریدی ثبت نشده است.</td></tr>';
+  var uses=DB.fabricUsage.slice().reverse();
+  document.getElementById('fabricUsageTable').innerHTML=uses.length?uses.map(function(x){return '<tr><td>'+x.date+'</td><td>'+x.unit+'</td><td>'+fmt(x.qty)+'</td><td>'+(x.order||'-')+'</td><td>'+(x.note||'')+'</td><td><button class="btn danger" onclick="deleteFabricRecord(\'use\',\''+x.id+'\')">حذف</button></td></tr>';}).join(''):'<tr><td colspan="6" class="empty-state">هنوز مصرفی ثبت نشده است.</td></tr>';
+}
+document.addEventListener('input',function(e){if(e.target && (e.target.id==='fabricBuyQty'||e.target.id==='fabricBuyPrice')){var total=Number(document.getElementById('fabricBuyQty').value||0)*Number(document.getElementById('fabricBuyPrice').value||0);document.getElementById('fabricBuyTotalPreview').textContent=fmt(total)+' افغانی';}});
+
+// ==================== پشتیبان‌گیری ====================
+function checkBackupStatus() {
+  if(!DB.settings.lastBackup) { document.getElementById('backupWarning').style.display = 'block'; return; }
+  var last = new Date(DB.settings.lastBackup);
+  var diffDays = Math.ceil((new Date() - last) / (1000 * 60 * 60 * 24));
+  if(diffDays >= 3) { document.getElementById('backupWarning').style.display = 'block'; } 
+  else { document.getElementById('backupWarning').style.display = 'none'; }
+}
+
+function sendBackupToOwner() {
+  DB.settings.lastBackup = new Date().toISOString();
+  save();
+  document.getElementById('backupWarning').style.display = 'none';
+
+  var dataStr = JSON.stringify(DB, null, 2);
+  var blob = new Blob([dataStr], {type:'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Backup-Sharif-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  toast('⬇️ فایل دانلود شد. در حال باز کردن واتساپ...');
+  setTimeout(function() {
+    var msg = 'سلام استاد رضا علوی، این فایل پشتیبان اطلاعات من است. لطفاً ذخیره کنید.';
+    var url = 'https://wa.me/93764942879?text=' + encodeURIComponent(msg);
+    window.open(url, '_blank');
+  }, 2000);
+}
+
+// ==================== بازیابی پشتیبان ====================
+function downloadSharifBackupObject(data, filename) {
+  var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
+}
+
+function restoreBackupFromFile() {
+  var input = document.getElementById('restoreBackupFile');
+  var file = input && input.files && input.files[0];
+  if (!file) { alert('لطفاً ابتدا فایل پشتیبان JSON را انتخاب کنید.'); return; }
+  if (!/\.json$/i.test(file.name) && file.type !== 'application/json') {
+    alert('فایل انتخاب‌شده JSON نیست. لطفاً فایل پشتیبان با پسوند .json را انتخاب کنید.'); return;
+  }
+  var reader = new FileReader();
+  reader.onload = function() {
+    var incoming;
+    try { incoming = JSON.parse(String(reader.result || '')); }
+    catch(e) { alert('فایل قابل خواندن نیست یا ساختار JSON آن خراب است. هیچ اطلاعاتی تغییر نکرد.'); return; }
+
+    // پذیرش ساختار فایل‌های پشتیبان همین برنامه و نسخه‌هایی که کلیدهای localStorage را ذخیره کرده‌اند.
+    var source = incoming && incoming.data && typeof incoming.data === 'object' ? incoming.data : incoming;
+    function getArray(primary, legacy) {
+      var value = source[primary];
+      if (value === undefined) value = source[legacy];
+      if (value === undefined) return [];
+      if (!Array.isArray(value)) throw new Error('بخش «' + primary + '» ساختار معتبر ندارد.');
+      return value;
+    }
+    var restored;
+    try {
+      restored = {
+        persons: getArray('persons','sharif_persons'),
+        products: getArray('products','sharif_products'),
+        transactions: getArray('transactions','sharif_tx'),
+        expenses: getArray('expenses','sharif_expenses'),
+        fabricPurchases: getArray('fabricPurchases','sharif_fabric_purchases'),
+        fabricUsage: getArray('fabricUsage','sharif_fabric_usage'),
+        settings: source.settings !== undefined ? source.settings : source.sharif_settings
+      };
+      if (restored.settings === undefined) restored.settings = {sharifPic:null,lastBackup:null};
+      if (!restored.settings || typeof restored.settings !== 'object' || Array.isArray(restored.settings)) throw new Error('بخش تنظیمات فایل معتبر نیست.');
+      var hasKnownSection = ['persons','products','transactions','expenses','fabricPurchases','fabricUsage','sharif_persons','sharif_products','sharif_tx','sharif_expenses','sharif_fabric_purchases','sharif_fabric_usage'].some(function(k){return Object.prototype.hasOwnProperty.call(source,k);});
+      if (!hasKnownSection) throw new Error('این فایل، پشتیبان شناخته‌شده سیستم شریف احمدی نیست.');
+    } catch(e) { alert('بازیابی انجام نشد: ' + e.message + '\nاطلاعات فعلی دست‌نخورده باقی ماند.'); return; }
+
+    var summary = 'اشخاص: '+restored.persons.length+'\nمحصولات/لباس‌ها: '+restored.products.length+'\nمعاملات: '+restored.transactions.length+'\nمصارف: '+restored.expenses.length+'\nخرید تکه: '+restored.fabricPurchases.length+'\nمصرف تکه: '+restored.fabricUsage.length;
+    if (!confirm('اطلاعات داخل فایل بررسی شد. موارد زیر بازیابی می‌شود:\n\n'+summary+'\n\nقبل از ادامه، نسخه اضطراری اطلاعات فعلی دانلود می‌شود. آیا ادامه می‌دهید؟')) return;
+
+    var previous = {
+      persons: DB.persons, products: DB.products, transactions: DB.transactions,
+      expenses: DB.expenses, fabricPurchases: DB.fabricPurchases, fabricUsage: DB.fabricUsage, settings: DB.settings
+    };
+    // نسخه اضطراری از وضعیت فعلی، پیش از هر تغییری
+    downloadSharifBackupObject(previous, 'Backup-Sharif-Before-Restore-'+new Date().toISOString().slice(0,10)+'.json');
+    DB.persons = restored.persons; DB.products = restored.products;
+    DB.transactions = restored.transactions; DB.expenses = restored.expenses;
+    DB.fabricPurchases = restored.fabricPurchases; DB.fabricUsage = restored.fabricUsage;
+    DB.settings = restored.settings;
+    if (!save()) {
+      DB.persons = previous.persons; DB.products = previous.products; DB.transactions = previous.transactions;
+      DB.expenses = previous.expenses; DB.fabricPurchases = previous.fabricPurchases;
+      DB.fabricUsage = previous.fabricUsage; DB.settings = previous.settings;
+      alert('ذخیره اطلاعات بازیابی‌شده در حافظه ناموفق بود. اطلاعات قبلی در صفحه برگردانده شد؛ فایل اضطراری دانلودشده را نگه دارید.');
+      return;
+    }
+    alert('بازیابی با موفقیت انجام شد. برای نمایش کامل همه اطلاعات، صفحه را یک‌بار تازه‌سازی کنید.');
+    location.reload();
+  };
+  reader.onerror = function(){ alert('خواندن فایل ناموفق بود. لطفاً دوباره فایل را انتخاب کنید.'); };
+  reader.readAsText(file);
+}
+
+// ==================== منوی موبایل ====================
+function toggleMobileMenu(force) {
+  var menu = document.getElementById('mainSidebar');
+  var backdrop = document.getElementById('sidebarBackdrop');
+  if (!menu || !backdrop) return;
+  var open = (typeof force === 'boolean') ? force : !menu.classList.contains('mobile-open');
+  menu.classList.toggle('mobile-open', open);
+  backdrop.classList.toggle('show', open);
+}
+
+// ==================== شروع ====================
+document.addEventListener('keydown', function(e) { if(e.key === 'Escape') toggleMobileMenu(false); });
+
+document.addEventListener('DOMContentLoaded', function() {
+  try { renderSharifProfile(); checkBackupStatus(); render(); }
+  catch(e) { console.error('خطای راه‌اندازی سیستم:', e); alert('در شروع سیستم خطا رخ داد. لطفاً یک‌بار صفحه را ببندید و دوباره باز کنید؛ اطلاعات ذخیره‌شده حذف نمی‌شود.'); }
+});
+</script>
+
+<script>
+// ثبت Service Worker برای نصب و اجرای آفلاین برنامه
+(function(){
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('./sw.js', {scope:'./'})
+        .then(function(reg){ console.log('Offline mode ready', reg.scope); })
+        .catch(function(err){ console.error('ثبت حالت آفلاین ناموفق بود:', err); });
+    });
+  }
+})();
+</script>
+</body></html>
